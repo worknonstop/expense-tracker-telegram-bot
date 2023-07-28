@@ -1,3 +1,4 @@
+import datetime
 import os
 import sqlite3 as sq
 
@@ -15,3 +16,9 @@ class DataBase:
         date DATETIME,
         category_uniqname INTEGER,
         FOREIGN KEY(category_uniqname) REFERENCES category(uniqname)""")
+
+    def insert_expense(self, cost: int, category_uniqname: str):
+        self.cur.execute("SELECT * FROM category WHERE uniqname = ?", (category_uniqname,))
+        self.cur.execute("INSERT INTO expenses (cost, date, category_uniqname) VALUES (?, ?, ?)",
+                         (cost, datetime.datetime.now(), category_uniqname))
+        self.con.commit()
