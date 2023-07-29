@@ -6,6 +6,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from dotenv import load_dotenv
 from db.db import DataBase
+from handlers.handlers import register_handlers
 
 
 load_dotenv('.env')
@@ -24,7 +25,7 @@ async def cmd_start(message: types.Message):
 
 
 async def main():
-    d_base.create_tables()
+    register_handlers(dp)
     await dp.start_polling(bot)
 
 
