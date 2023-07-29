@@ -20,3 +20,16 @@ class DataBase:
     def get_category_names(self) -> List[str]:
         names = self.cur.execute("SELECT name FROM category")
         return [name[0] for name in names]
+
+    def get_sql_day_expenses(self):
+        return self.cur.execute("""
+        SELECT c.name, SUM(e.cost) 
+        FROM expense e 
+        INNER JOIN category c ON e.category_uniqname = c.uniqname 
+        WHERE date(e.date) = date('now') 
+        GROUP BY c.name;""")
+
+    def get_sql_day_sum_expenses(self):
+        return self.cur.execute("""
+        SELECT SUM(cost) FROM expense
+        """)
