@@ -1,7 +1,7 @@
 create table category(
     uniqname primary key,
     name
-)
+);
 
 create table expense(
     id integer primary key,
@@ -9,7 +9,7 @@ create table expense(
     date datetime,
     category_uniqname integer,
     foreign key(category_uniqname) references category(uniqname)
-)
+);
 
 insert into category (uniqname, name)
 values
@@ -22,4 +22,4 @@ values
     ("telecom", "связь"),
     ("clothes", "одежда"),
     ("hobby", "hobby"),
-    ("other", "другое"),
+    ("other", "другое");
