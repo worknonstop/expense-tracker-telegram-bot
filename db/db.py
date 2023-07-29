@@ -1,6 +1,7 @@
 import datetime
 import os
 import sqlite3 as sq
+from typing import List
 
 
 class DataBase:
@@ -13,3 +14,7 @@ class DataBase:
         self.cur.execute("INSERT INTO expenses (cost, date, category_uniqname) VALUES (?, ?, ?)",
                          (cost, datetime.datetime.now(), category_uniqname))
         self.con.commit()
+
+    def get_category_names(self) -> List[str]:
+        names = self.cur.execute("SELECT name FROM category")
+        return names.fetchall()
