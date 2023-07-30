@@ -57,9 +57,10 @@ async def get_commands(message: types.Message):
     await message.answer(commands, parse_mode="Markdown")
 
 
-# async def get_cagegories(message: types.Message):
-#     categories = db.get_category_names()
-#     await message.answer("Все категории расходов:\n" + categories)
+async def get_categories(message: types.Message):
+    list_categories = db.get_list_categories()
+    category_names = "\n".join(category for category in list_categories)
+    await message.answer("Все категории расходов:\n" + category_names)
 
 
 def register_handlers(dp: Dispatcher):
@@ -68,3 +69,4 @@ def register_handlers(dp: Dispatcher):
     dp.register_message_handler(get_month_expenses, commands=['month'])
     dp.register_message_handler(get_week_expenses, commands=['week'])
     dp.register_message_handler(get_commands, commands=['start', 'help'])
+    dp.register_message_handler(get_categories, commands=['categories'])
