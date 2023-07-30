@@ -56,6 +56,6 @@ class DataBase:
         """)
 
     def delete_sql_entry(self, entry_id):
-        query = self.cur.execute("DELETE e FROM expense e WHERE e.id = ?", (entry_id,))
-        self.con.commit()
+        query = self.cur.execute("DELETE FROM expense WHERE id = ?", (entry_id,))
+        # self.con.commit()
         return query
