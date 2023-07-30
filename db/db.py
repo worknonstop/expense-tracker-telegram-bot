@@ -27,9 +27,17 @@ class DataBase:
         FROM expense e 
         INNER JOIN category c ON e.category_uniqname = c.uniqname 
         WHERE date(e.date) = date('now') 
-        GROUP BY c.name;""")
+        GROUP BY c.name""")
 
     def get_sql_day_sum_expenses(self):
         return self.cur.execute("""
         SELECT SUM(cost) FROM expense
         """)
+
+    def get_sql_month_expenses(self):
+        return self.cur.execute("""
+        SELECT c.name, SUM(e.cost)
+        FROM expense e
+        JOIN category c ON e.category_uniqname = c.uniqname
+        WHERE strftime('%Y-%m', e.date) = strftime('%Y-%m', 'now')
+        GROUP BY c.name""")
