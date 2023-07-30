@@ -24,7 +24,7 @@ async def get_day_expenses(message: types.Message):
     for q in query:
         reply_message += f"*{q[0]}:* {q[1]}\n"
 
-    amount = db.get_sql_day_sum_expenses().fetchone()[0]
+    amount = sum(q[1] for q in query)
     await message.answer("*Расходы за сегодня:*\n\n" + reply_message +
                          f"\n*Итог:* {amount}", parse_mode="Markdown")
 
