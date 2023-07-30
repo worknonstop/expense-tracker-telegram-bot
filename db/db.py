@@ -17,7 +17,7 @@ class DataBase:
                          (cost, datetime.datetime.now(), uniqname))
         self.con.commit()
 
-    def get_category_names(self) -> List[str]:
+    def get_list_categories(self) -> List[str]:
         names = self.cur.execute("SELECT name FROM category")
         return [name[0] for name in names]
 

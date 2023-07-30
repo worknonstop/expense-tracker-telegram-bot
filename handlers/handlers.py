@@ -12,7 +12,7 @@ async def add_expense(message: types.Message):
     cost = int(match_message.group(1))
     category_name = match_message.group(2)
 
-    if category_name in db.get_category_names():
+    if category_name in db.get_list_categories():
         db.insert(cost, category_name)
         await message.answer("Записано!")
         return
@@ -55,6 +55,11 @@ async def get_week_expenses(message: types.Message):
 async def get_commands(message: types.Message):
     commands = text.commands
     await message.answer(commands, parse_mode="Markdown")
+
+
+# async def get_cagegories(message: types.Message):
+#     categories = db.get_category_names()
+#     await message.answer("Все категории расходов:\n" + categories)
 
 
 def register_handlers(dp: Dispatcher):
