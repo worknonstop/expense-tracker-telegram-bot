@@ -2,6 +2,7 @@ import re
 from aiogram import Dispatcher
 from aiogram import types
 from db.db import DataBase
+import text
 
 db = DataBase()
 
@@ -51,8 +52,14 @@ async def get_week_expenses(message: types.Message):
                          f"\n*Итог:* {amount}", parse_mode="Markdown")
 
 
+async def get_commands(message: types.Message):
+    commands = text.commands
+    await message.answer(commands, parse_mode="Markdown")
+
+
 def register_handlers(dp: Dispatcher):
     dp.register_message_handler(add_expense, regexp=r'([\d ]+) (.*)')
     dp.register_message_handler(get_day_expenses, commands=['day'])
     dp.register_message_handler(get_month_expenses, commands=['month'])
     dp.register_message_handler(get_week_expenses, commands=['week'])
+    dp.register_message_handler(get_commands, commands=['start', 'help'])
