@@ -48,9 +48,14 @@ class DataBase:
 
     def get_sql_five_last(self):
         return self.cur.execute("""
-        SELECT c.name, e.cost
+        SELECT c.name, e.cost, e.id
         FROM expense e
         JOIN category c ON e.category_uniqname = c.uniqname
         ORDER BY e.id DESC
         LIMIT 5
         """)
+
+    def delete_sql_entry(self, entry_id):
+        query = self.cur.execute("DELETE e FROM expense e WHERE e.id = ?", (entry_id,))
+        self.con.commit()
+        return query

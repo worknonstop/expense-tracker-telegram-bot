@@ -66,9 +66,17 @@ async def get_categories(message: types.Message):
 async def get_five_last(message: types.Message):
     query = db.get_sql_five_last().fetchall()
     five_last = ""
-    for q in query:
-        five_last += f"*{q[0]}:* {q[1]}\n"
+    for i, q in enumerate(query, start=1):
+        five_last += f"*{q[0]}:* {q[1]}    /del{i}\n"
     await message.answer("Показать последние расходы:\n" + five_last, parse_mode="Markdown")
+
+
+async def delete_entry(message: types.Message):
+    number_from_message = int(message.text[4:])
+    five_last = db.get_sql_five_last().fetchall()
+    for i, entry in enumerate(five_last, start=1):
+        if i == number_from_message:
+            await message.answer(f"Удалено {entry[0]}: {entry[1]}")
 
 
 def register_handlers(dp: Dispatcher):
@@ -79,3 +87,4 @@ def register_handlers(dp: Dispatcher):
     dp.register_message_handler(get_commands, commands=['start', 'help'])
     dp.register_message_handler(get_categories, commands=['categories'])
     dp.register_message_handler(get_five_last, commands=['last'])
+    dp.register_message_handler(delete_entry, regexp=r'/del(\d+)')
