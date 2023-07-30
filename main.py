@@ -19,11 +19,6 @@ dp = Dispatcher(bot, storage=storage)
 d_base = DataBase()
 
 
-@dp.message_handler(commands=["start"])
-async def cmd_start(message: types.Message):
-    await message.answer('Start!')
-
-
 async def main():
     register_handlers(dp)
     await dp.start_polling(bot)
