@@ -39,6 +39,9 @@ class DataBase:
 
     def get_sql_week_expenses(self):
         return self.cur.execute("""
-        SELECT * FROM expense
-        WHERE date >= date('now', 'weekday 1', '-7 days')
-        AND date <= date('now')""")
+        SELECT c.name, SUM(e.cost) as total_cost
+        FROM expense e
+        JOIN category c ON e.category_uniqname = c.uniqname
+        WHERE e.date >= date('now', 'weekday 1', '-7 days')
+        AND e.date < date('now', '+1 day')
+        GROUP BY c.name""")
