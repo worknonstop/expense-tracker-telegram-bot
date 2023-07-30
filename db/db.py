@@ -29,11 +29,6 @@ class DataBase:
         WHERE date(e.date) = date('now') 
         GROUP BY c.name""")
 
-    def get_sql_day_sum_expenses(self):
-        return self.cur.execute("""
-        SELECT SUM(cost) FROM expense
-        """)
-
     def get_sql_month_expenses(self):
         return self.cur.execute("""
         SELECT c.name, SUM(e.cost)
