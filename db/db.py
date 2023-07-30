@@ -36,3 +36,9 @@ class DataBase:
         JOIN category c ON e.category_uniqname = c.uniqname
         WHERE strftime('%Y-%m', e.date) = strftime('%Y-%m', 'now')
         GROUP BY c.name""")
+
+    def get_sql_week_expenses(self):
+        return self.cur.execute("""
+        SELECT * FROM expense
+        WHERE date >= date('now', 'weekday 1', '-7 days')
+        AND date <= date('now')""")
