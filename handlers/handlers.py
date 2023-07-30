@@ -40,7 +40,19 @@ async def get_month_expenses(message: types.Message):
                          f"\n*Итог:* {amount}", parse_mode="Markdown")
 
 
+async def get_week_expenses(message: types.Message):
+    query = db.get_sql_week_expenses().fetchall()
+    reply_message = ""
+    for q in query:
+        reply_message += f"*{q[0]}:* {q[1]}\n"
+
+    amount = sum(q[1] for q in query)
+    await message.answer("*Расходы за неделю:*\n\n" + reply_message +
+                         f"\n*Итог:* {amount}", parse_mode="Markdown")
+
+
 def register_handlers(dp: Dispatcher):
     dp.register_message_handler(add_expense, regexp=r'([\d ]+) (.*)')
     dp.register_message_handler(get_day_expenses, commands=['day'])
     dp.register_message_handler(get_month_expenses, commands=['month'])
+    dp.register_message_handler(get_week_expenses, commands=['week'])
