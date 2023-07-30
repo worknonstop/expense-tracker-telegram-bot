@@ -63,6 +63,14 @@ async def get_categories(message: types.Message):
     await message.answer("Все категории расходов:\n" + category_names)
 
 
+async def get_five_last(message: types.Message):
+    query = db.get_sql_five_last().fetchall()
+    five_last = ""
+    for q in query:
+        five_last += f"*{q[0]}:* {q[1]}\n"
+    await message.answer("Показать последние расходы:\n" + five_last, parse_mode="Markdown")
+
+
 def register_handlers(dp: Dispatcher):
     dp.register_message_handler(add_expense, regexp=r'([\d ]+) (.*)')
     dp.register_message_handler(get_day_expenses, commands=['day'])
@@ -70,3 +78,4 @@ def register_handlers(dp: Dispatcher):
     dp.register_message_handler(get_week_expenses, commands=['week'])
     dp.register_message_handler(get_commands, commands=['start', 'help'])
     dp.register_message_handler(get_categories, commands=['categories'])
+    dp.register_message_handler(get_five_last, commands=['last'])

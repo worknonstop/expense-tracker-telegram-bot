@@ -45,3 +45,12 @@ class DataBase:
         WHERE e.date >= date('now', 'weekday 1', '-7 days')
         AND e.date < date('now', '+1 day')
         GROUP BY c.name""")
+
+    def get_sql_five_last(self):
+        return self.cur.execute("""
+        SELECT c.name, e.cost
+        FROM expense e
+        JOIN category c ON e.category_uniqname = c.uniqname
+        ORDER BY e.id DESC
+        LIMIT 5
+        """)
