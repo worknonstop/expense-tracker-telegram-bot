@@ -76,6 +76,7 @@ async def delete_entry(message: types.Message):
     five_last = db.get_sql_five_last().fetchall()
     for i, entry in enumerate(five_last, start=1):
         if i == number_from_message:
+            db.delete_sql_entry(str(entry[2]))
             await message.answer(f"Удалено {entry[0]}: {entry[1]}")
 
 
